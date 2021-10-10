@@ -1,64 +1,55 @@
-import React, { Component } from 'react';
-import { Media } from 'reactstrap';
-import { Card, CardImg, CardImgOverlay, CardText, CardBody,
-    CardTitle } from 'reactstrap';
-import DishdetailComponent from './DishdetailComponent';
+import React from 'react';
+import { Card, CardImg, CardImgOverlay,
+    CardTitle, Breadcrumb, BreadcrumbItem } from 'reactstrap';
+import {Link} from 'react-router-dom';
 
-import * as moment from 'moment';
-class Menu extends Component {
 
-    constructor(props) {
-        super(props);
 
-     
+
+
+
+
+    function RenderMenuItem ({dish, onClick}) {
+        return (
+            <Card
+               >
+                   <Link to={`/menu/${dish.id}`}>
+                <CardImg width="100%" src={dish.image} alt={dish.name} />
+                <CardImgOverlay>
+                    <CardTitle>{dish.name}</CardTitle>
+                </CardImgOverlay>
+                </Link>
+            </Card>
+
+        );
     }
 
-    onDishSelect(dish) {
-        this.setState({ selectedDish: dish});
-        this.setState({ comments: dish.comments});
-    }
+    const Menu = (props) => {
 
-    renderComment(comment) {
-
-        if (comment != null)
-        return(
-             
-           
-            <div style={{textAlign:'left'}}><h4>Comments</h4> {comment.map(c=>(<div key={c.id} style={{textAlign:'left'}}>{c.comment} <br/>--<b>{c.author}</b>, {moment(c.date).format('DD MMM, YYYY')}</div>))}</div>
-          
-           
-              );
-          else
-              return(
-                  <div></div>
-              );
-    }
-    render() {
-        const menu = this.props.dishes.map((dish,i) => {
+        const menu = props.dishes.map((dish) => {
             return (
-              <div  className="col-12 col-md-5 m-1">
-                <Card key={dish.id}
-                  onClick={() => this.props.onClick(dish.id)}>
-                  <CardImg width="100%" src={dish.image} alt={dish.name} />
-                  <CardImgOverlay>
-                      <CardTitle>{dish.name}</CardTitle>
-                  </CardImgOverlay>
-                </Card>
-              </div>
+                <div className="col-12 col-md-5 m-1"  key={dish.id}>
+                    <RenderMenuItem dish={dish}  />
+                </div>
             );
         });
 
         return (
             <div className="container">
                 <div className="row">
-                    {menu}
-                </div> 
-                
-               
-                  <div className="col-12 col-md-5 m-1">{this.renderComment(this.props.comments)}</div>
+                    <Breadcrumb>
+                        <BreadcrumbItem><Link to="/home">Home</Link></BreadcrumbItem>
+                        <BreadcrumbItem active>Menu</BreadcrumbItem>
+                    </Breadcrumb>
+                    <div className="col-12">
+                        <h3>Menu</h3>
+                        <hr />
+                    </div>                
                 </div>
+                <div className="row">
+                    {menu}
+                </div>
+            </div>
         );
-    }
-}
-
+        }
 export default Menu;

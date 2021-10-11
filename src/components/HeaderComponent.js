@@ -51,7 +51,7 @@ class Header extends Component {
                             <FormGroup>
                                 <Label htmlFor="password">Password</Label>
                                 <Input type="password" id="password" name="password"
-                                    innerRef={(input) => this.password = input}  />
+                                    innerRef={(input) => this.password = input /*innerRef for reactstrap*/}  /> 
                             </FormGroup>
                             <FormGroup check>
                                 <Label check>

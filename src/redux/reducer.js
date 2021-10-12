@@ -1,7 +1,8 @@
+/*
 import { COMMENTS } from '../shared/comments';
 import { PROMOTIONS } from '../shared/promotions';
 import { LEADERS } from '../shared/leaders';  
-import { DISHES } from '../shared/dishes';
+
 
 export const initialState ={
     dishes: DISHES,
@@ -15,3 +16,7 @@ export const Reducer = (state = initialState,action) =>{  //when the reducer is 
                                                           //I'm going to say that if the state is undefined, the default value will be initialState (ES6)
     return state
 };
+*/
+
+
+// this file is not needed since we already created 4 reducer functions

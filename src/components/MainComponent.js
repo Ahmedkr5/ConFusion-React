@@ -10,6 +10,7 @@ import Contact from './ContactComponent';
 import AboutComponent from './AboutComponent';
 import {connect} from 'react-redux';
 import { addComment,fetchDishes } from '../redux/ActionCreators';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { actions } from 'react-redux-form';
 //this will map the Redux Store's state into props that will become available to my component
 const mapStateToProps = state /*state from my redux store*/ => {
@@ -75,14 +76,18 @@ class Main extends Component {
     return (
       <div>
       <Header />
-      <Switch>
-              <Route path='/home' component={HomePage} />
-              <Route exact path='/menu' component={() => <Menu dishes={this.props.dishes} />} />
-              <Route path='/menu/:dishId' component={DishWithId} />
-              <Route exact path='/contactus' component={() => <Contact resetFeedbackForm={this.props.resetFeedbackForm} />} />
-              <Route exact path='/aboutus' component={()=><AboutComponent leaders={this.props.leaders}/>} />
-              <Redirect to="/home" />
-          </Switch>
+      <TransitionGroup>
+            <CSSTransition key={this.props.location.key} classNames="page" timeout={300}>
+              <Switch location={this.props.location}>
+                  <Route path='/home' component={HomePage} />
+                  <Route exact path='/aboutus' component={() => <AboutComponent leaders={this.props.leaders} />} />
+                  <Route exact path='/menu' component={() => <Menu dishes={this.props.dishes} />} />
+                  <Route path='/menu/:dishId' component={DishWithId} />
+                  <Route exact path='/contactus' component={() => <Contact resetFeedbackForm={this.props.resetFeedbackForm} />} />
+                  <Redirect to="/home" />
+              </Switch>
+            </CSSTransition>
+          </TransitionGroup>
         <Footer />
      
         

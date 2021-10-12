@@ -9,7 +9,7 @@ import { Switch, Route, Redirect,withRouter } from 'react-router-dom';
 import Contact from './ContactComponent';
 import AboutComponent from './AboutComponent';
 import {connect} from 'react-redux';
-
+import { addComment } from '../redux/ActionCreators';
 //this will map the Redux Store's state into props that will become available to my component
 const mapStateToProps = state /*state from my redux store*/ => {
     return  {
@@ -21,8 +21,12 @@ const mapStateToProps = state /*state from my redux store*/ => {
     }
 }
 
-
-
+// read right to left
+const mapDistpatchToProps =(dispatch) =>({
+  addComment: (dishId,rating,author,comment) =>                              dispatch                 (addComment((dishId,rating,author,comment)))
+   //addcomment function will be available within main comp       //given as a param to dispatch fct   //addComment return action object
+})
+//connection (line 74)
 
 class Main extends Component {
 
@@ -49,7 +53,9 @@ class Main extends Component {
     const DishWithId = ({match}) => {
       return(
           <DishdetailComponent dish={this.props.dishes.filter((dish) => dish.id === parseInt(match.params.dishId,10))[0]} 
-            comments={this.props.comments.filter((comment) => comment.dishId === parseInt(match.params.dishId,10))} />
+            comments={this.props.comments.filter((comment) => comment.dishId === parseInt(match.params.dishId,10))} 
+            addComment={this.props.addComment}
+            />
       );
     };
     return (
@@ -71,4 +77,4 @@ class Main extends Component {
   }
 }
 
-export default withRouter(connect(mapStateToProps)(Main));//connecting component to redux store
+export default withRouter(connect(mapStateToProps,mapDistpatchToProps)(Main));//connecting component to redux store

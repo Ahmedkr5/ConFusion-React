@@ -18,8 +18,8 @@ import {
   Row,
   Col,
 } from "reactstrap";
-
-import { Control, LocalForm, Errors } from "react-redux-form";
+import { Control, Form, Errors, actions } from 'react-redux-form';
+import {  LocalForm} from "react-redux-form";
 import Loading from './LoadingComponent';
 const required = (val) => val && val.length; //value > 0
 const maxLength = (len) => (val) => !val || val.length <= len;
@@ -40,7 +40,7 @@ class CommentForm extends Component {
   handleCommentFormSubmit(values) {
     this.toggleCommentFormModal();
     this.props.addComment(this.props.dishId, values.rating, values.author, values.comment);
-
+    this.props.resetFeedbackForm();
 
    /* console.log("Current State is: " + JSON.stringify(values));
     alert("Current State is: " + JSON.stringify(values));*/
@@ -68,9 +68,7 @@ class CommentForm extends Component {
             Submit Comment{" "}
           </ModalHeader>
           <ModalBody>
-            <LocalForm
-              onSubmit={(values) => this.handleCommentFormSubmit(values)}
-            >
+          <LocalForm model="feedback" onSubmit={(values) => this.handleCommentFormSubmit(values)}>
               <Row className="form-group">
                 <Label htmlFor="rating" md={12}>
                   Rating

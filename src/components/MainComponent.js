@@ -10,6 +10,7 @@ import Contact from './ContactComponent';
 import AboutComponent from './AboutComponent';
 import {connect} from 'react-redux';
 import { addComment,fetchDishes } from '../redux/ActionCreators';
+import { actions } from 'react-redux-form';
 //this will map the Redux Store's state into props that will become available to my component
 const mapStateToProps = state /*state from my redux store*/ => {
     return  {
@@ -25,8 +26,13 @@ const mapStateToProps = state /*state from my redux store*/ => {
 const mapDistpatchToProps =(dispatch) =>({
   addComment: (dishId,rating,author,comment) =>                              dispatch                 (addComment((dishId,rating,author,comment))),
    //addcomment function will be available within main comp       //given as a param to dispatch fct   //addComment return action object
-   fetchDishes: ()=>{dispatch      (fetchDishes())}
-})           //dispatch the thunk    //thunk
+   fetchDishes: ()=>{dispatch      (fetchDishes())},
+               //dispatch the thunk    //thunk
+  resetFeedbackForm: () => { dispatch(actions.reset('feedback'))}
+  })
+          
+
+
 //connection (line 74)
 
 class Main extends Component {
@@ -73,7 +79,7 @@ class Main extends Component {
               <Route path='/home' component={HomePage} />
               <Route exact path='/menu' component={() => <Menu dishes={this.props.dishes} />} />
               <Route path='/menu/:dishId' component={DishWithId} />
-              <Route exact path='/contactus' component={Contact} />
+              <Route exact path='/contactus' component={() => <Contact resetFeedbackForm={this.props.resetFeedbackForm} />} />
               <Route exact path='/aboutus' component={()=><AboutComponent leaders={this.props.leaders}/>} />
               <Redirect to="/home" />
           </Switch>
